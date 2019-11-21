@@ -15,12 +15,13 @@ public:
     explicit HyoNumberPad(QWidget *parent = 0);
     ~HyoNumberPad();
     
-    void show(int value);
+    void show(const QVariant &value);
 
 private:
     Ui::HyoNumberPad *ui;
+    int m_dataType;
 
-    void appendNum(int val);
+    void pressKey(int val);
 
 private slots:
     void onNumerClicked0();
@@ -33,14 +34,20 @@ private slots:
     void onNumerClicked7();
     void onNumerClicked8();
     void onNumerClicked9();
+    void onMinusClicked();
+    void onPointClicked();
 
     void onEnterClicked();
     void onCancelClicked();
     void onClearClicked();
     void onDeleteClicked();
+    void onBackspaceClicked();
+    void onLeftClicked();
+    void onRightClicked();
 
 signals:
-    void entered(int);
+    void entered(const QVariant&);
+    void canceled();
 };
 
 #endif // HYONUMBERPAD_H
