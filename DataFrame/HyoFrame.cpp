@@ -138,6 +138,15 @@ void HyoFrame::writeU2(const quint16 val, bool isLittleEndian)
     m_idx += dataSize;
 }
 
+void HyoFrame::writeU2(const quint16 *val, int count, bool isLittleEndian)
+{
+    if( val == NULL ) { return; }
+
+    for( int i = 0; i < count; i++ ) {
+        this->writeU2(val[i], isLittleEndian);
+    }
+}
+
 void HyoFrame::writeU4(const quint32 val, bool isLittleEndian)
 {
     int dataSize = sizeof(quint32);
@@ -154,6 +163,15 @@ void HyoFrame::writeU4(const quint32 val, bool isLittleEndian)
     m_idx += dataSize;
 }
 
+void HyoFrame::writeU4(const quint32 *val, int count, bool isLittleEndian)
+{
+    if( val == NULL ) { return; }
+
+    for( int i = 0; i < count; i++ ) {
+        this->writeU4(val[i], isLittleEndian);
+    }
+}
+
 void HyoFrame::writeU8(const quint64 val, bool isLittleEndian)
 {
     int dataSize = sizeof(quint64);
@@ -168,6 +186,15 @@ void HyoFrame::writeU8(const quint64 val, bool isLittleEndian)
         qToBigEndian(val, reinterpret_cast<uchar*>(m_data.data()+m_idx));
     }
     m_idx += dataSize;
+}
+
+void HyoFrame::writeU8(const quint64 *val, int count, bool isLittleEndian)
+{
+    if( val == NULL ) { return; }
+
+    for( int i = 0; i < count; i++ ) {
+        this->writeU8(val[i], isLittleEndian);
+    }
 }
 
 void HyoFrame::writeBuf(const char *src, int size)
@@ -188,6 +215,17 @@ void HyoFrame::writeBuf(const uchar *src, int size)
 
     memcpy(m_data.data()+m_idx, src, static_cast<size_t>(size));
     m_idx += size;
+}
+
+void HyoFrame::writeBuf(const QByteArray &data)
+{
+    this->writeBuf(data.data(), data.size());
+}
+
+void HyoFrame::append(const QByteArray &data)
+{
+    m_data.append(data);
+    m_idx = m_data.size();
 }
 
 void HyoFrame::writeStreamAsciiToBin(const HyoFrame *src)

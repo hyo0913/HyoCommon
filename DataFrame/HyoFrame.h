@@ -17,12 +17,14 @@ public:
     explicit HyoFrame(const char *data, int size);
     ~HyoFrame();
 
+    inline void clear() { m_data.clear(); m_idx = 0; }
+
     inline int size() const { return m_data.size(); }
     inline int index() const { return m_idx; }
     inline void setIndex(int idx) const { m_idx = idx; }
 
     inline const char* data() const { return m_data.data(); }
-    inline QByteArray toByteArray() const { return m_data; }
+    inline const QByteArray& toByteArray() const { return m_data; }
 
     quint8 readU1() const;
     quint16 readU2(bool isLittleEndian = false) const;
@@ -32,10 +34,15 @@ public:
 
     void writeU1(const quint8 val);
     void writeU2(const quint16 val, bool isLittleEndian = false);
+    void writeU2(const quint16 *val, int count, bool isLittleEndian = false);
     void writeU4(const quint32 val, bool isLittleEndian = false);
+    void writeU4(const quint32 *val, int count, bool isLittleEndian = false);
     void writeU8(const quint64 val, bool isLittleEndian = false);
+    void writeU8(const quint64 *val, int count, bool isLittleEndian = false);
     void writeBuf(const char *src, int size);
     void writeBuf(const uchar *src, int size);
+    void writeBuf(const QByteArray &data);
+    void append(const QByteArray &data);
 
     void writeStreamAsciiToBin(const HyoFrame *src);
     void writeStreamBinToAscii(const HyoFrame *src);
